@@ -33,4 +33,15 @@ public class OkexDigestV3 extends BaseParamsDigest {
     }
     return Base64.getEncoder().encodeToString(signSHA256);
   }
+
+  public String digestWebsocket(String timestamp, String httpMethod, String path) {
+    String toSign = timestamp + httpMethod + path;
+    byte[] signSHA256;
+    try {
+      signSHA256 = getMac().doFinal(toSign.getBytes(UTF_8));
+    } catch (IllegalStateException | UnsupportedEncodingException e) {
+      throw new ExchangeException("Could not sign the request", e);
+    }
+    return Base64.getEncoder().encodeToString(signSHA256);
+  }
 }

@@ -1,9 +1,12 @@
 package org.knowm.xchange.okcoin.v3.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.okcoin.OkexExchangeV3;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureCandles;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInstrument;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInterest;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
@@ -43,5 +46,18 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
 
   public List<OkexSwapTicker> getAllSwapTickers() throws IOException {
     return okex.getAllSwapTickers();
+  }
+
+  public OkexFutureInterest getOpenInterest(String instrumentId) throws IOException {
+    return okex.getOpenInterest(instrumentId);
+  }
+
+  public List<OkexFutureCandles> getKlines(String instrumentId) throws IOException {
+    List<Object[]> raws = okex.getKlines(instrumentId);
+    List<OkexFutureCandles> candles = new ArrayList<>();
+    for (Object[] raw : raws) {
+      candles.add(new OkexFutureCandles(raw));
+    }
+    return candles;
   }
 }

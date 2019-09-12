@@ -20,6 +20,7 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInstrument;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInterest;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
@@ -261,6 +262,16 @@ public interface OkexV3 {
   @GET
   @Path("/futures/v3/instruments/ticker")
   List<OkexFutureTicker> getAllFutureTickers() throws IOException, OkexException;
+
+  @GET
+  @Path("/futures/v3/instruments/{instrument_id}/open_interest")
+  OkexFutureInterest getOpenInterest(@PathParam("instrument_id") String instrumentId)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/futures/v3/instruments/{instrument_id}/candles")
+  List<Object[]> getKlines(@PathParam("instrument_id") String instrumentId)
+      throws IOException, OkexException;
 
   @GET
   @Path("/futures/v3/position")
